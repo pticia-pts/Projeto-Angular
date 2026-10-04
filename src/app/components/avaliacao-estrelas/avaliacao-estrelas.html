@@ -1,0 +1,23 @@
+
+<div class="inline-flex items-center gap-0.5" role="group" aria-label="Avaliação em estrelas"
+     (mouseleave)="hover.set(0)">
+  @for (n of estrelas; track n) {
+    @if (somenteLeitura()) {
+      <span class="text-2xl leading-none"
+            [class.text-amber-400]="n <= valor()"
+            [class.text-slate-300]="n > valor()"
+            aria-hidden="true">{{ n <= valor() ? '★' : '☆' }}</span>
+    } @else {
+      <button type="button"
+              class="rounded p-0.5 text-3xl leading-none transition hover:scale-110 focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+              [class.text-amber-400]="preenchida(n)"
+              [class.text-slate-300]="!preenchida(n)"
+              [disabled]="desabilitado()"
+              [attr.aria-label]="n + (n === 1 ? ' estrela' : ' estrelas')"
+              [attr.aria-pressed]="n <= valor()"
+              (mouseenter)="hover.set(n)"
+              (click)="selecionar(n)">{{ preenchida(n) ? '★' : '☆' }}</button>
+    }
+  }
+  <span class="ml-2 text-sm font-medium text-slate-600">{{ valor() }}/5</span>
+</div>

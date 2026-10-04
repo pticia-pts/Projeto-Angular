@@ -1,12 +1,29 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { BreadcrumbModule } from '@openng/optimus-ui/breadcrumb';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
   templateUrl: './app.html',
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    ButtonModule,
+    BreadcrumbModule
+  ]
 })
 export class App {
-  protected readonly title = signal('Biblioteca');
+
+  items = [
+    {
+      label: 'Livros',
+      routerLink: '/livros'
+    }
+  ];
+
+  home = {
+    icon: 'pi pi-home',
+    routerLink: '/'
+  };
 }

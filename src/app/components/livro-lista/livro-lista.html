@@ -1,0 +1,128 @@
+<!-- Botão para adicionar livro -->
+<div class="mb-6 flex justify-end">
+  <p-button
+    label="Adicionar livro"
+    icon="pi pi-plus"
+    severity="success"
+    routerLink="/livros/novo"
+  />
+</div>
+
+<!-- SEM LIVROS CADASTRADOS -->
+@if (livros().length === 0) {
+
+  <p-card class="block w-full">
+    <div class="flex flex-col items-center py-8 text-center">
+      <h2 class="text-xl font-semibold text-color">Sua biblioteca está vazia</h2>
+      <p class="mt-2 text-muted-color">Comece adicionando um livro à sua coleção.</p>
+      <p-button
+        class="mt-6"
+        label="Adicionar primeiro livro"
+        icon="pi pi-plus"
+        severity="success"
+        routerLink="/livros/novo"
+      />
+    </div>
+  </p-card>
+
+} @else {
+
+  <!-- GRID: auto-rows-fr = todas as linhas com a mesma altura -->
+  <div class="grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+    @for (livro of livros(); track livro.id) {
+
+      <!-- CARD: o pt estica o card e o corpo até a altura da linha do grid -->
+      <p-card
+        class="block h-full"
+        [pt]="{
+          root:    { class: 'h-full flex flex-col' },
+          body:    { class: 'flex-1 flex flex-col' },
+          content: { class: 'flex-1 flex flex-col' }
+        }"
+      >
+
+        <div class="flex min-h-[22rem] flex-1 flex-col gap-3">
+
+          <!-- TÍTULO (até 2 linhas, altura fixa) -->
+          <h2 class="line-clamp-2 min-h-12 text-lg font-semibold leading-6 text-color">
+            <a
+              [routerLink]="['/livros', livro.id]"
+              class="hover:text-primary focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              {{ livro.titulo }}
+            </a>
+          </h2>
+
+          <!-- AUTOR + GÊNERO • ANO (altura fixa, truncados) -->
+          <div class="min-h-10 text-sm leading-5">
+            <p class="truncate text-color">{{ livro.autor }}</p>
+            <p class="truncate text-muted-color">
+              {{ livro.genero }} • {{ livro.anoPublicacao }}
+            </p>
+          </div>
+
+          <!-- STATUS + AVALIAÇÃO (linha sempre presente, mesma altura) -->
+          <div class="flex min-h-9 items-center justify-between gap-2">
+            @if (livro.lido) {
+              <p-tag severity="success" icon="pi pi-check" value="Lido" />
+              <app-avaliacao-estrelas [valor]="livro.avaliacao" [somenteLeitura]="true" />
+            } @else {
+              <p-tag severity="secondary" icon="pi pi-circle" value="Não lido" />
+              <span class="text-sm text-muted-color">Sem avaliação</span>
+            }
+          </div>
+
+          <!-- COMENTÁRIO (ocupa o espaço que sobra; máx. 3 linhas) -->
+          <div class="min-h-[4.5rem] flex-1">
+            @if (livro.comentario) {
+              <blockquote class="line-clamp-3 text-sm italic leading-6 text-muted-color">
+                "{{ livro.comentario }}"
+              </blockquote>
+            } @else {
+              <p class="text-sm italic leading-6 text-muted-color/60">Sem comentário.</p>
+            }
+          </div>
+
+          <!-- AÇÕES (sempre no rodapé do card) -->
+          <div class="mt-auto flex items-center gap-2 border-t border-surface pt-4">
+            <p-button
+              label="Detalhes"
+              icon="pi pi-eye"
+              size="small"
+              severity="info"
+              [routerLink]="['/livros', livro.id]"
+            />
+            <p-button
+              label="Editar"
+              icon="pi pi-pencil"
+              size="small"
+              variant="outlined"
+              severity="secondary"
+              [routerLink]="['/livros', livro.id, 'editar']"
+            />
+            <p-button
+              class="ml-auto"
+              icon="pi pi-trash"
+              ariaLabel="Excluir"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              (onClick)="livroParaExcluir.set(livro)"
+            />
+          </div>
+
+        </div>
+      </p-card>
+    }
+  </div>
+}
+
+<!-- MODAL DE CONFIRMAÇÃO -->
+@if (livroParaExcluir(); as livro) {
+  <app-confirmar-exclusao
+    [livro]="livro"
+    (confirmar)="excluir()"
+    (cancelar)="livroParaExcluir.set(null)"
+  />
+}

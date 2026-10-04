@@ -1,0 +1,230 @@
+<div class="mx-auto max-w-2xl">
+
+  <h1 class="mb-6 text-3xl font-bold text-slate-900">
+    {{ editando ? 'Editar livro' : 'Adicionar livro' }}
+  </h1>
+
+  <p-card>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="salvar()"
+      novalidate
+    >
+
+      <div class="space-y-6 p-6">
+
+        <fieldset class="space-y-5">
+
+          <legend class="text-lg font-semibold text-slate-900">
+            Informações do livro
+          </legend>
+
+          <!-- Título -->
+          <div>
+            <label
+              for="titulo"
+              class="mb-2 block text-sm font-medium text-slate-700"
+            >
+              Título
+            </label>
+
+            <input
+              id="titulo"
+              type="text"
+              pInputText
+              formControlName="titulo"
+              class="w-full"
+            />
+
+            @if (invalido('titulo')) {
+              <p class="mt-1 text-sm text-red-600">
+                Informe o título.
+              </p>
+            }
+          </div>
+
+          <!-- Autor -->
+          <div>
+            <label
+              for="autor"
+              class="mb-2 block text-sm font-medium text-slate-700"
+            >
+              Autor
+            </label>
+
+            <input
+              id="autor"
+              type="text"
+              pInputText
+              formControlName="autor"
+              class="w-full"
+            />
+
+            @if (invalido('autor')) {
+              <p class="mt-1 text-sm text-red-600">
+                Informe o autor.
+              </p>
+            }
+          </div>
+
+          <!-- Ano e gênero -->
+          <div class="grid gap-5 sm:grid-cols-2">
+
+            <div>
+              <label
+                for="ano"
+                class="mb-2 block text-sm font-medium text-slate-700"
+              >
+                Ano de publicação
+              </label>
+
+              <input
+                id="ano"
+                type="number"
+                pInputText
+                formControlName="anoPublicacao"
+                class="w-full"
+              />
+
+              @if (invalido('anoPublicacao')) {
+                <p class="mt-1 text-sm text-red-600">
+                  Informe um ano entre 1 e {{ anoAtual }}.
+                </p>
+              }
+            </div>
+
+            <div>
+              <label
+                for="genero"
+                class="mb-2 block text-sm font-medium text-slate-700"
+              >
+                Gênero
+              </label>
+
+              <input
+                id="genero"
+                type="text"
+                pInputText
+                formControlName="genero"
+                class="w-full"
+              />
+
+              @if (invalido('genero')) {
+                <p class="mt-1 text-sm text-red-600">
+                  Informe o gênero.
+                </p>
+              }
+            </div>
+
+          </div>
+
+        </fieldset>
+
+
+        <!-- Leitura -->
+        <fieldset>
+
+          <legend class="mb-2 text-lg font-semibold text-slate-900">
+            Leitura
+          </legend>
+
+          <p class="mb-3 text-sm text-slate-700">
+            Você já leu este livro?
+          </p>
+
+          <div class="flex gap-3">
+
+            <p-button
+              label="Não lido"
+              variant="outlined"
+              severity="secondary"
+              type="button"
+              (click)="lido.set(false)"
+            />
+
+            <p-button
+              label="Lido"
+              severity="success"
+              type="button"
+              (click)="lido.set(true)"
+            />
+
+          </div>
+
+        </fieldset>
+
+
+        <!-- Avaliação -->
+        <fieldset>
+
+          <legend class="mb-2 text-lg font-semibold text-slate-900">
+            Sua avaliação
+          </legend>
+
+          <app-avaliacao-estrelas
+            [(valor)]="avaliacao"
+            [desabilitado]="!lido()"
+          />
+
+          @if (!lido()) {
+            <p class="mt-1 text-sm text-slate-500">
+              Marque o livro como lido para avaliá-lo.
+            </p>
+          }
+
+        </fieldset>
+
+
+        <!-- Comentário -->
+        <div>
+
+          <label
+            for="comentario"
+            class="mb-2 block text-sm font-medium text-slate-700"
+          >
+            Comentário sobre o livro
+            <span class="text-slate-400">(opcional)</span>
+          </label>
+
+          <textarea
+            id="comentario"
+            pTextarea
+            formControlName="comentario"
+            rows="5"
+            cols="30"
+            class="w-full"
+            placeholder="Conte o que achou do livro..."
+          ></textarea>
+
+        </div>
+
+
+        <!-- Ações -->
+        <div
+          class="flex justify-end gap-3 border-t border-slate-200 pt-5"
+        >
+
+          <p-button
+            label="Cancelar"
+            variant="outlined"
+            severity="danger"
+            routerLink="/"
+            type="button"
+          />
+
+          <p-button
+            label="Salvar livro"
+            severity="success"
+            type="submit"
+          />
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </p-card>
+
+</div>

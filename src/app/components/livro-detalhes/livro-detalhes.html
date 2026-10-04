@@ -1,0 +1,198 @@
+@if (livro(); as livro) {
+
+  <p-card
+    class="mx-auto max-w-2xl"
+  >
+
+    <div class="p-6 sm:p-8">
+
+      <h1 class="text-3xl font-bold text-slate-900">
+        {{ livro.titulo }}
+      </h1>
+
+      <p class="mt-1 text-lg text-slate-600">
+        {{ livro.autor }}
+      </p>
+
+      <dl class="mt-6 grid gap-6 sm:grid-cols-3">
+
+        <!-- Ano de publicação -->
+        <div>
+          <dt class="text-sm font-medium text-slate-500">
+            Ano de publicação
+          </dt>
+
+          <dd class="mt-1 text-slate-900">
+            {{ livro.anoPublicacao }}
+          </dd>
+        </div>
+
+        <!-- Gênero -->
+        <div>
+          <dt class="text-sm font-medium text-slate-500">
+            Gênero
+          </dt>
+
+          <dd class="mt-1 text-slate-900">
+            {{ livro.genero }}
+          </dd>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <dt class="text-sm font-medium text-slate-500">
+            Status
+          </dt>
+
+          <dd class="mt-1">
+
+            @if (livro.lido) {
+
+              <p-tag
+                severity="success"
+                value="Lido"
+              />
+
+            } @else {
+
+              <p-tag
+                severity="secondary"
+                value="Não lido"
+              />
+
+            }
+
+          </dd>
+        </div>
+
+      </dl>
+
+      <!-- Avaliação -->
+      @if (livro.lido) {
+
+        <div class="mt-6">
+
+          <h2 class="text-sm font-medium text-slate-500">
+            Avaliação
+          </h2>
+
+          @if (livro.avaliacao > 0) {
+
+            <app-avaliacao-estrelas
+              [valor]="livro.avaliacao"
+              [somenteLeitura]="true"
+            />
+
+          } @else {
+
+            <p class="text-slate-600">
+              Sem avaliação
+            </p>
+
+          }
+
+        </div>
+
+      }
+
+      <!-- Minha opinião -->
+      <div class="mt-6">
+
+        <h2 class="text-sm font-medium text-slate-500">
+          Minha opinião
+        </h2>
+
+        @if (livro.comentario) {
+
+          <blockquote
+            class="mt-1 whitespace-pre-line border-l-4 border-indigo-200 pl-4 italic text-slate-700"
+          >
+            "{{ livro.comentario }}"
+          </blockquote>
+
+        } @else {
+
+          <p class="mt-1 text-slate-500">
+            Nenhum comentário registrado.
+          </p>
+
+        }
+
+      </div>
+
+      <!-- Botões -->
+      <div
+        class="mt-8 flex flex-wrap gap-3 border-t border-slate-200 pt-6"
+      >
+           <!-- Voltar -->
+        <p-button
+          label="Voltar para biblioteca"
+          variant="outlined"
+          severity="secondary"
+          routerLink="/"
+        />
+
+        <!-- Editar -->
+        <p-button
+          label="Editar livro"
+          severity="help"
+          [routerLink]="['/livros', livro.id, 'editar']"
+        />
+
+        <!-- Excluir -->
+        <p-button
+          label="Excluir livro"
+          severity="danger"
+          (click)="confirmando.set(true)"
+        />
+
+     
+
+      </div>
+
+    </div>
+
+  </p-card>
+
+  <!-- Confirmação de exclusão -->
+  @if (confirmando()) {
+
+    <app-confirmar-exclusao
+      [livro]="livro"
+      (confirmar)="excluir()"
+      (cancelar)="confirmando.set(false)"
+    />
+
+  }
+
+} @else {
+
+  <!-- Livro não encontrado -->
+  <div class="mx-auto max-w-2xl">
+
+    <p-card>
+
+      <div class="p-10 text-center">
+
+        <h1 class="text-xl font-semibold text-slate-900">
+          Livro não encontrado
+        </h1>
+
+        <div class="mt-4">
+
+          <p-button
+            label="Voltar para biblioteca"
+            variant="outlined"
+            severity="secondary"
+            routerLink="/"
+          />
+
+        </div>
+
+      </div>
+
+    </p-card>
+
+  </div>
+
+}
