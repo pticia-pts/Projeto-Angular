@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Livro } from '../../models/livro';
 import { CardModule } from '@openng/optimus-ui/card';
@@ -11,7 +12,7 @@ import { ConfirmarExclusao } from '../confirmar-exclusao/confirmar-exclusao';
 
 @Component({
   selector: 'app-livro-lista',
-  imports: [RouterLink, AvaliacaoEstrelas, ConfirmarExclusao, CardModule, ButtonModule,TagModule],
+  imports: [RouterLink, DatePipe, AvaliacaoEstrelas, ConfirmarExclusao, CardModule, ButtonModule,TagModule],
   templateUrl: './livro-lista.html',
 })
 export class LivroLista {

@@ -16,14 +16,14 @@
 
       <dl class="mt-6 grid gap-6 sm:grid-cols-3">
 
-        <!-- Ano de publicação -->
+        <!-- Data de publicação -->
         <div>
           <dt class="text-sm font-medium text-slate-500">
-            Ano de publicação
+            Data de publicação
           </dt>
 
           <dd class="mt-1 text-slate-900">
-            {{ livro.anoPublicacao }}
+            {{ livro.anoPublicacao | date: 'dd/MM/yyyy' }}
           </dd>
         </div>
 

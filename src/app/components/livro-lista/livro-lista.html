@@ -58,7 +58,7 @@
           <div class="min-h-10 text-sm leading-5">
             <p class="truncate text-color">{{ livro.autor }}</p>
             <p class="truncate text-muted-color">
-              {{ livro.genero }} • {{ livro.anoPublicacao }}
+              {{ livro.genero }} • {{ livro.anoPublicacao | date: 'dd/MM/yyyy' }}
             </p>
           </div>
 

@@ -73,23 +73,24 @@
 
             <div>
               <label
-                for="ano"
+                for="dataPublicacao"
                 class="mb-2 block text-sm font-medium text-slate-700"
               >
-                Ano de publicação
+                Data de publicação
               </label>
 
               <input
-                id="ano"
-                type="number"
+                id="dataPublicacao"
+                type="date"
                 pInputText
                 formControlName="anoPublicacao"
                 class="w-full"
+                [max]="dataAtual"
               />
 
               @if (invalido('anoPublicacao')) {
                 <p class="mt-1 text-sm text-red-600">
-                  Informe um ano entre 1 e {{ anoAtual }}.
+                  Informe uma data válida que não seja futura.
                 </p>
               }
             </div>

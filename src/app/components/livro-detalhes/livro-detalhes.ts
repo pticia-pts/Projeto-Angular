@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LivroService } from '../../services/livro';
 import { AvaliacaoEstrelas } from '../avaliacao-estrelas/avaliacao-estrelas';
@@ -10,7 +11,7 @@ import { TagModule } from '@openng/optimus-ui/tag';
 
 @Component({
   selector: 'app-livro-detalhes',
-  imports: [RouterLink, AvaliacaoEstrelas, ConfirmarExclusao, CardModule,ButtonModule,TagModule],
+  imports: [RouterLink, DatePipe, AvaliacaoEstrelas, ConfirmarExclusao, CardModule,ButtonModule,TagModule],
   templateUrl: './livro-detalhes.html',
 })
 export class LivroDetalhes {
